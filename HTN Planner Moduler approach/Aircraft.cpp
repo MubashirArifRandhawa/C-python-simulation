@@ -96,7 +96,10 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
 
     // Calculate the endpoint of the heading line
     float line_length = 30.0f; // Length of the heading line
-    float angle_radians = heading * M_PI / 180.0f; // Convert degrees to radians
+    //float angle_radians = heading * M_PI / 180.0f; // Convert degrees to radians
+
+    float angle_radians = get_heading() * M_PI / 180.0f; // Convert degrees to radians
+
 
     int x_end = static_cast<int>(x + line_length * cos(angle_radians));
     int y_end = static_cast<int>(y - line_length * sin(angle_radians)); // SDL's y-axis is inverted

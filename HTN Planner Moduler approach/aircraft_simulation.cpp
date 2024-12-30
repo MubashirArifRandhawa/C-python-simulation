@@ -14,6 +14,8 @@ PYBIND11_MODULE(aircraft_simulation, m) {
         .def("move_to", &Aircraft::move_to)
         .def("attack", &Aircraft::attack)
         .def("defend", &Aircraft::defend)
+        .def("set_heading", &Aircraft::set_heading)
+        .def("get_heading", &Aircraft::get_heading)
         .def("is_alive", &Aircraft::is_alive);
 
     py::class_<Simulation>(m, "Simulation")

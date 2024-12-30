@@ -54,7 +54,7 @@ Here is a screenshot of the simulation's render screen:
    Navigate to the project where setup.py is present and run:
 
    ```bash
-   python setup.py install
+   python setup.py build_ext --inplace
    ```
 
 ### **Run**
