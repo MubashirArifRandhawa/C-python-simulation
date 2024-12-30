@@ -1,15 +1,9 @@
-﻿  Aircraft.cpp
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(93,26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(100,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  aircraft_simulation.cpp
-  HTNCore.cpp
-  main.cpp
-  Simulation.cpp
+﻿  Simulation.cpp
      Creating library D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.lib and object D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exp
   Generating code
-  4 of 3216 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 3216 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+    17 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   HTN Planner Moduler approach.vcxproj -> D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exe
   'pwsh.exe' is not recognized as an internal or external command,
