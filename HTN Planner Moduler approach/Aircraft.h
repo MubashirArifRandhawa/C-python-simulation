@@ -9,6 +9,7 @@ private:
     std::string force; // "Red" or "Blue"
     int health;
     float x, y;
+    float heading; // Heading in degrees
 
 public:
     // Constructor
@@ -28,6 +29,9 @@ public:
     bool is_alive() const;
     void draw(SDL_Renderer* renderer) const;
     void wrap_around_screen(int screen_width, int screen_height);
+    void set_heading(float new_heading);
+
+    float get_heading() const;
 
 private:
     // Helper function to validate force input

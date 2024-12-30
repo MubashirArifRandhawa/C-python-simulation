@@ -1,12 +1,22 @@
 #include "Aircraft.h"
 #include <iostream>
 // #include <SDL.h>
+#include <cmath> // For sin and cos
 
 // Constructor
 Aircraft::Aircraft(const std::string& name, const std::string& force, int health, float startX, float startY)
     : name(name), health(health), x(startX), y(startY) {
     validate_force(force);
     this->force = force;
+    this->heading = 0.0f;
+}
+
+void Aircraft::set_heading(float new_heading) {
+    heading = new_heading;
+}
+
+float Aircraft::get_heading() const {
+    return heading;
 }
 
 // Getter Methods
@@ -68,12 +78,10 @@ bool Aircraft::is_alive() const {
     return health > 0;
 }
 
-void Aircraft::draw(SDL_Renderer* renderer) const {
-    if (renderer == nullptr) {
-        std::cerr << "Invalid renderer passed to draw method.\n";
-        return;
-    }
 
+void Aircraft::draw(SDL_Renderer* renderer) const {
+    // Draw the aircraft body (as a rectangle for simplicity)
+    SDL_Rect rect = { static_cast<int>(x - 10), static_cast<int>(y - 10), 20, 20 };
     // Set color based on force
     if (force == "Blue") {
         SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);  // Blue
@@ -81,10 +89,20 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
     else if (force == "Red") {
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);  // Red
     }
-
-    // Draw a simple rectangle representing the aircraft
-    SDL_Rect rect = { static_cast<int>(x), static_cast<int>(y), 15, 15 };
     SDL_RenderFillRect(renderer, &rect);
+
+    // Draw the heading line
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white color for heading line
+
+    // Calculate the endpoint of the heading line
+    float line_length = 30.0f; // Length of the heading line
+    float angle_radians = heading * M_PI / 180.0f; // Convert degrees to radians
+
+    int x_end = static_cast<int>(x + line_length * cos(angle_radians));
+    int y_end = static_cast<int>(y - line_length * sin(angle_radians)); // SDL's y-axis is inverted
+
+    // Draw the line
+    SDL_RenderDrawLine(renderer, static_cast<int>(x), static_cast<int>(y), x_end, y_end);
 }
 
 void Aircraft::wrap_around_screen(int screen_width, int screen_height) {

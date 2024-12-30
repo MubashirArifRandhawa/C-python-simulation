@@ -21,7 +21,7 @@ This project simulates the behavior of aircraft in a 2D space, utilizing SDL for
 Here is a screenshot of the simulation's render screen:
 
 
-<img src="./renderd_aircrafts_black.png" alt="Render Screen" width="450" height="350">
+<img src="./renderd_aircrafts.png" alt="Render Screen" width="450" height="350">
 
 
 ## Setup
