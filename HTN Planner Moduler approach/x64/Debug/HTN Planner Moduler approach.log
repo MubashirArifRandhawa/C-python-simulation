@@ -1,0 +1,49 @@
+﻿  main.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(178,5): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(178,5): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(188,5): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(188,5): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(1333,9): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xmemory(1333,9): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(99,9): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(99,9): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(334,9): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(334,9): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(350,9): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(350,9): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xlocale(264,13): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xlocale(264,13): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xlocale(279,9): error C2039: '_invalid_parameter': is not a member of '`global namespace''
+  (compiling source file 'main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xlocale(279,9): error C3861: '_invalid_parameter': identifier not found
+  (compiling source file 'main.cpp')
+  

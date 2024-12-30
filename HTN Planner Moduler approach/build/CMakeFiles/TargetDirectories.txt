@@ -1,0 +1,3 @@
+D:/Cplusplus/HTN Planner Moduler approach/HTN Planner Moduler approach/build/CMakeFiles/aircraft_simulation.dir
+D:/Cplusplus/HTN Planner Moduler approach/HTN Planner Moduler approach/build/CMakeFiles/ALL_BUILD.dir
+D:/Cplusplus/HTN Planner Moduler approach/HTN Planner Moduler approach/build/CMakeFiles/ZERO_CHECK.dir
