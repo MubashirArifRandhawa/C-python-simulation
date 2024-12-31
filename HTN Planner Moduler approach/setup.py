@@ -7,7 +7,7 @@ SDL2_LIB_DIR = "D:\\Cplusplus\\HTN Planner Moduler approach\\HTN Planner Moduler
 
 module = Extension(
     'aircraft_simulation',
-    sources=['aircraft_simulation.cpp', 'Aircraft.cpp', 'Simulation.cpp'],
+    sources=['aircraft_simulation.cpp', 'Aircraft.cpp', 'Simulation.cpp', 'CoordinateSystem.cpp'],
     include_dirs=[pybind11.get_include(), SDL2_INCLUDE_DIR],
     libraries=['SDL2', 'SDL2main'],
     library_dirs=[SDL2_LIB_DIR],

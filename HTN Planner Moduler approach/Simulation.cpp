@@ -4,12 +4,14 @@
 #include <atomic> // For thread-safe running state
 
 
+
 // Initialize the static instance to nullptr
 std::once_flag flag;
 std::unique_ptr<Simulation> Simulation::instance = nullptr;
 
 Simulation::Simulation()
-    : window(nullptr), renderer(nullptr), quit(false), running(false) { // Initialize running to false
+    : coordSystem(-90.0f, 90.0f, -180.0f, 180.0f, 800, 600), window(nullptr), renderer(nullptr), quit(false), running(false) { // Initialize running to false
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
     }
@@ -29,8 +31,8 @@ Simulation::Simulation()
 
     // Aircrafts ceated
 
-    add_aircraft("Fighter1", "Blue", 100, 100, 100);
-    add_aircraft("Bomber1", "Red", 200, 200, 100);
+    add_aircraft("Fighter1", "Blue", 100, 20.0f, 0.0f, coordSystem);
+    add_aircraft("Bomber1", "Red", 200, 0.0f, 20.0f, coordSystem);
 
     //################################ python ################################
 
@@ -57,16 +59,10 @@ Simulation& Simulation::get_instance() {
     return *instance;
 }
 
-//Simulation& Simulation::get_instance() {
-//    if (!instance) {
-//        instance = std::unique_ptr<Simulation>(new Simulation());
-//    }
-//    return *instance;
-//}
-
 // Add an aircraft
-void Simulation::add_aircraft(const std::string& name, const std::string& color, int force, float x, float y) {
-    aircrafts.emplace_back(name, color, force, x, y);
+void Simulation::add_aircraft(const std::string& name, const std::string& force, int health, float x, float y, CoordinateSystem& coordSystem) {
+    // Create an aircraft
+    aircrafts.emplace_back(name, force, health, x, y, coordSystem);
 }
 
 // Get aircrafts (const version)
@@ -77,13 +73,6 @@ const std::vector<Aircraft>& Simulation::get_aircrafts() const {
 // Get aircrafts (modifiable version)
 std::vector<Aircraft>& Simulation::get_aircrafts_mutable() {
     return aircrafts;
-}
-
-// Update aircraft positions
-void Simulation::update_aircrafts() {
-    for (auto& aircraft : aircrafts) {
-        aircraft.wrap_around_screen(800, 600);
-    }
 }
 
 // Main simulation loop

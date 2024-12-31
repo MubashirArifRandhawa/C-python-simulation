@@ -1,12 +1,14 @@
 ﻿  Aircraft.cpp
+  HTNCore.cpp
+  Simulation.cpp
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(69,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(142,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   aircraft_simulation.cpp
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(101,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(114,26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(121,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  main.cpp
      Creating library D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.lib and object D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exp
   Generating code
   Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 3247 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 3271 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   HTN Planner Moduler approach.vcxproj -> D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exe
   'pwsh.exe' is not recognized as an internal or external command,

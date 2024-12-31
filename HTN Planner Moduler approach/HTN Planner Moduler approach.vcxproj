@@ -141,25 +141,20 @@ SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
   <ItemGroup>
     <ClCompile Include="Aircraft.cpp" />
     <ClCompile Include="aircraft_simulation.cpp" />
+    <ClCompile Include="CoordinateSystem.cpp" />
     <ClCompile Include="HTNCore.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aircraft.h" />
+    <ClInclude Include="CoordinateSystem.h" />
     <ClInclude Include="HTNCore.h" />
     <ClInclude Include="Simulation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="aircraft_behavior.py" />
-    <None Include="aircraft_simulation.pyx" />
-    <None Include="aircraft_simulation_with_graphics.py" />
-    <None Include="my_plan.py" />
     <None Include="setup.py" />
-    <None Include="wrapper.pyx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

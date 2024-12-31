@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include "Aircraft.h"
 #include <atomic>
+#include "CoordinateSystem.h"
 
 #include <pybind11/embed.h>
 
@@ -19,11 +20,10 @@ public:
 
     static Simulation& get_instance(); // Returns a reference to the singleton
 
-    void add_aircraft(const std::string& name, const std::string& color, int force, float x, float y);
+    void add_aircraft(const std::string& name, const std::string& force, int health, float x, float y, CoordinateSystem& coordSystem);
     const std::vector<Aircraft>& get_aircrafts() const;
     std::vector<Aircraft>& get_aircrafts_mutable();
     void run();
-    void update_aircrafts();
     bool is_quit() const { return quit; }
     bool is_running() const; // New method to check simulation state
     ~Simulation(); // Make sure the destructor is public
@@ -37,6 +37,8 @@ private:
     std::vector<Aircraft> aircrafts;
     std::atomic<bool> running; // Tracks whether the simulation is running
     static std::unique_ptr<Simulation> instance; // Use unique_ptr for automatic memory management
+
+    CoordinateSystem coordSystem;
 
     //################################ python ################################
     
