@@ -12,7 +12,11 @@ private:
     int health;
     float heading; // Heading in degrees (0 = North)
     CoordinateSystem& coordinateSystem; // Reference to a coordinate system
-    float latitude, longitude; // Position in lat/lon
+    float latitude, longitude; // Current position in lat/lon
+    float target_latitude, target_longitude; // Target position in lat/lon
+    float speed; // Speed in lat/lon units per update
+
+    bool is_moving; // Flag to indicate if the aircraft is moving
 
 public:
     // Constructor
@@ -26,13 +30,17 @@ public:
     float get_heading() const;
     std::pair<float, float> get_position() const;
 
-    // Methods
-    void move_to(float newLatitude, float newLongitude);
+    // Movement
+    void move_to(float newLatitude, float newLongitude); // Initiate movement
     void move(float distance);
+    void update(SDL_Renderer* renderer); // Update function for simulation loop
     void attack(Aircraft& target);
     void defend();
     bool is_alive() const;
     void draw(SDL_Renderer* renderer) const;
     void adjustHeadingToNorth();
     void set_heading(float new_heading);
+
+private:
+    void update_position(); // Gradually move towards the target
 };

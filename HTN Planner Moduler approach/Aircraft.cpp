@@ -7,7 +7,7 @@
 Aircraft::Aircraft(const std::string& name, const std::string& force, int health,
     float startLatitude, float startLongitude, CoordinateSystem& coordinateSystem)
     : name(name), health(health), latitude(startLatitude), longitude(startLongitude),
-    coordinateSystem(coordinateSystem), heading(0.0f) { // Default heading is North
+    coordinateSystem(coordinateSystem), heading(0.0f), speed(0.25f) { // Default heading is North
     if (force != "Red" && force != "Blue") {
         std::cerr << "Invalid force value: " << force << ". Force must be 'Red' or 'Blue'.\n";
         this->force = "Blue"; // Default to Blue if invalid
@@ -15,11 +15,12 @@ Aircraft::Aircraft(const std::string& name, const std::string& force, int health
     else {
         this->force = force;
     }
-
     // Adjust the heading so 0 degrees is north
     adjustHeadingToNorth();  // Adjust heading after setting it
 
 }
+
+
 
 void Aircraft::adjustHeadingToNorth() {
     heading = 90.0f - heading;  // Adjust so 0 degrees points north
@@ -58,10 +59,40 @@ void Aircraft::set_heading(float new_heading) {
     adjustHeadingToNorth();  // Adjust heading after setting it
 }
 
-// Move the aircraft to a specific lat/lon position
+
 void Aircraft::move_to(float newLatitude, float newLongitude) {
-    latitude = newLatitude;
-    longitude = newLongitude;
+    target_latitude = newLatitude;
+    target_longitude = newLongitude;
+    is_moving = true; // Start moving
+}
+
+void Aircraft::update_position() {
+    if (!is_moving) return;
+
+    // Calculate differences
+    float delta_latitude = target_latitude - latitude;
+    float delta_longitude = target_longitude - longitude;
+
+    // Calculate the distance to the target
+    float distance_to_target = std::sqrt(delta_latitude * delta_latitude +
+        delta_longitude * delta_longitude);
+
+    if (distance_to_target < speed) {
+        // Close enough to the target, snap to target and stop moving
+        latitude = target_latitude;
+        longitude = target_longitude;
+        is_moving = false;
+    }
+    else {
+        // Move a step towards the target
+        float ratio = speed / distance_to_target;
+        latitude += delta_latitude * ratio;
+        longitude += delta_longitude * ratio;
+
+        // Update heading to point towards the target
+        heading = std::atan2(delta_longitude, delta_latitude) * 180.0f / M_PI;
+        adjustHeadingToNorth();
+    }
 }
 
 // Move the aircraft in the direction of its current heading
@@ -150,47 +181,13 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
 }
 
 
+void Aircraft::update(SDL_Renderer* renderer) {
+    if (!is_alive()) {
+        std::cout << name << " is destroyed and cannot perform updates.\n";
+        return;
+    }
 
-
-//void Aircraft::draw(SDL_Renderer* renderer) const {
-//    std::cout << "Drawing aircraft: " << get_name() << "\n";
-//    std::cout << "Current position in lat/lon: (" << latitude << ", " << longitude << ")\n";
-//
-//    std::pair<int, int> screen_coordinates = coordinateSystem.to_screen_coordinates(latitude, longitude);
-//    int screen_x = screen_coordinates.first;
-//    int screen_y = screen_coordinates.second;
-//
-//    std::cout << "Converted screen coordinates: (" << screen_x << ", " << screen_y << ")\n";
-//
-//    // Draw the aircraft body
-//    SDL_Rect rect = { static_cast<int>(screen_x - 10), static_cast<int>(screen_y - 10), 20, 20 };
-//
-//    std::cout << "Force: "<<force <<" Screen_x: "<< screen_x << " Screen_y: " << screen_y << std::endl;
-//    if (force == "Blue") {
-//        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue
-//    }
-//    else if (force == "Red") {
-//        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red
-//    }
-//    else {
-//        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Default white if invalid force
-//    }
-//    SDL_RenderFillRect(renderer, &rect);
-//
-//    // Draw the heading line
-//    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White
-//
-//    // Calculate the endpoint of the heading line
-//    float line_length = 30.0f;
-//    float heading_radians = get_heading() * M_PI / 180.0f;
-//
-//    float end_latitude = latitude + (line_length / 100.0f) * std::cos(heading_radians);
-//    float end_longitude = longitude + (line_length / 100.0f) * std::sin(heading_radians);
-//
-//    std::pair<int, int> screen_coordinates_end = coordinateSystem.to_screen_coordinates(end_latitude, end_longitude);
-//    int end_x = screen_coordinates_end.first;
-//    int end_y = screen_coordinates_end.second;
-//
-//    SDL_RenderDrawLine(renderer, static_cast<int>(screen_x), static_cast<int>(screen_y),
-//        static_cast<int>(end_x), static_cast<int>(end_y));
-//}
+    // Update the position if the aircraft is moving
+    update_position();
+    draw(renderer);
+}
