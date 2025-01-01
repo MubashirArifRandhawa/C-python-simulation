@@ -31,15 +31,16 @@ Simulation::Simulation()
 
     // Aircrafts ceated
 
-    add_aircraft("Fighter1", "Blue", 100, 20.0f, 0.0f, coordSystem);
-    add_aircraft("Bomber1", "Red", 200, 0.0f, 20.0f, coordSystem);
+    add_aircraft("Fighter1", "Blue", 100, 5.0f, 0.0f, coordSystem);
+    add_aircraft("Bomber1", "Red", 200, 0.0f, 5.0f, coordSystem);
 
     //################################ python ################################
 
     // Pass the simulation object to Python
     py::object py_sim = py::cast(this);
     behavior_module.attr("set_simulation")(py_sim);
-    // behavior_module.attr("control_aircrafts_once")();
+
+    // behavior_module.attr("call_once")();
 
     //################################ python ################################
 }
@@ -92,29 +93,45 @@ void Simulation::run() {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-       
-        // Draw all aircraft
-        for (const auto& aircraft : aircrafts) {
-            aircraft.draw(renderer);
-        }
+        // Simulation Update Call
+        simulation_update(aircrafts, renderer);
 
         SDL_RenderPresent(renderer);
-
         SDL_Delay(16);  // Cap frame rate to ~60 FPS
+    }
+    running = false; // Set running to false when the simulation stops
+}
 
-        PyGILState_STATE gstate;
-        gstate = PyGILState_Ensure();
-
-        ///* Perform Python actions here. */
-        behavior_module.attr("sim_update")();
-        ///* evaluate result or handle exception */
-
-        ///* Release the thread. No Python API allowed beyond this point. */
-        PyGILState_Release(gstate);
-        
+void Simulation::simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer) {
+    for (auto& aircraft : aircrafts) {
+        // aircraft.move_to(70.0f, 120.0f);
+        aircraft.update(renderer); // Update each aircraft's state
     }
 
-    running = false; // Set running to false when the simulation stops
+    PyGILState_STATE gstate;
+    gstate = PyGILState_Ensure();
+
+    // Perform Python actions here.
+    // behavior_module.attr("sim_update")();
+    behavior_module.attr("call_once")();
+
+    // Release the thread. No Python API allowed beyond this point.
+    PyGILState_Release(gstate);
+}
+
+void Simulation::initialize() {
+    if (!is_initialized) {
+        std::cout << "Simulation initialized!" << std::endl;
+        
+        /*PyGILState_STATE gstate;
+        gstate = PyGILState_Ensure();
+
+        behavior_module.attr("call_once")();
+
+        PyGILState_Release(gstate);
+
+        is_initialized = true;*/
+    }
 }
 
 // Check if the simulation is running

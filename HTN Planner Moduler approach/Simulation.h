@@ -27,6 +27,8 @@ public:
     bool is_quit() const { return quit; }
     bool is_running() const; // New method to check simulation state
     ~Simulation(); // Make sure the destructor is public
+    void simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer);
+    void initialize();
 
 private:
     Simulation(); // Keep the constructor private
@@ -41,7 +43,7 @@ private:
     CoordinateSystem coordSystem;
 
     //################################ python ################################
-    
+    bool is_initialized = false;
     // Initializes Python interpreter
     py::scoped_interpreter guard{}; 
     // Import Python script
@@ -49,5 +51,7 @@ private:
 
     //################################ python ################################
 };
+
+    
 
 #endif
