@@ -107,30 +107,30 @@ void Simulation::simulation_update(std::vector<Aircraft>& aircrafts, SDL_Rendere
         // aircraft.move_to(70.0f, 120.0f);
         aircraft.update(renderer); // Update each aircraft's state
     }
-
-    PyGILState_STATE gstate;
-    gstate = PyGILState_Ensure();
+    initialize();
+    //PyGILState_STATE gstate;
+    //gstate = PyGILState_Ensure();
 
     // Perform Python actions here.
     // behavior_module.attr("sim_update")();
-    behavior_module.attr("call_once")();
+    // behavior_module.attr("call_once")();
 
     // Release the thread. No Python API allowed beyond this point.
-    PyGILState_Release(gstate);
+    //PyGILState_Release(gstate);
 }
 
 void Simulation::initialize() {
     if (!is_initialized) {
         std::cout << "Simulation initialized!" << std::endl;
         
-        /*PyGILState_STATE gstate;
+        PyGILState_STATE gstate;
         gstate = PyGILState_Ensure();
 
         behavior_module.attr("call_once")();
 
         PyGILState_Release(gstate);
 
-        is_initialized = true;*/
+        is_initialized = true;
     }
 }
 

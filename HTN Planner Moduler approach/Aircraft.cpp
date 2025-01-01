@@ -72,7 +72,7 @@ void Aircraft::update_position() {
     // Calculate differences
     float delta_latitude = target_latitude - latitude;
     float delta_longitude = target_longitude - longitude;
-
+    std::cout << "Target Lat Long: " << target_latitude << ", " << target_longitude << std::endl;
     // Calculate the distance to the target
     float distance_to_target = std::sqrt(delta_latitude * delta_latitude +
         delta_longitude * delta_longitude);
@@ -149,8 +149,6 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
     std::pair<int, int> screen_coordinates = coordinateSystem.to_screen_coordinates(latitude, longitude);
     int screen_x = screen_coordinates.first;
     int screen_y = screen_coordinates.second;
-
-    std::cout << "Converted screen coordinates: (" << screen_x << ", " << screen_y << ")\n";
 
     // Draw the aircraft body
     SDL_Rect rect = { static_cast<int>(screen_x - 10), static_cast<int>(screen_y - 10), 20, 20 };

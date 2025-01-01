@@ -13,20 +13,14 @@ CoordinateSystem::CoordinateSystem(float minLat, float maxLat, float minLon, flo
 }
 
 std::pair<int, int> CoordinateSystem::to_screen_coordinates(float latitude, float longitude) const {
-    // Debug bounds
-    std::cout << "Coordinate system bounds: "
-        << "Lat[" << min_latitude << ", " << max_latitude << "], "
-        << "Lon[" << min_longitude << ", " << max_longitude << "]\n";
 
     // Clamp latitude and longitude
     float clamped_lat = std::max(min_latitude, std::min(latitude, max_latitude));
     float clamped_lon = std::max(min_longitude, std::min(longitude, max_longitude));
-    std::cout << "Clamped Latitude: " << clamped_lat << ", Longitude: " << clamped_lon << "\n";
 
     // Normalize latitude and longitude
     float normalized_lat = (clamped_lat - min_latitude) / (max_latitude - min_latitude);
     float normalized_lon = (clamped_lon - min_longitude) / (max_longitude - min_longitude);
-    std::cout << "Normalized Latitude: " << normalized_lat << ", Longitude: " << normalized_lon << "\n";
 
     // Invert Y-axis for latitude
     normalized_lat = 1.0f - normalized_lat;
@@ -42,11 +36,6 @@ std::pair<int, int> CoordinateSystem::to_screen_coordinates(float latitude, floa
 }
 
 
-
-
-
-
-// Convert screen coordinates to latitude/longitude
 std::pair<float, float> CoordinateSystem::to_lat_lon(int screen_x, int screen_y) const {
     // Normalize screen coordinates to 0-1 range
     float normalized_lon = static_cast<float>(screen_x) / screen_width;
