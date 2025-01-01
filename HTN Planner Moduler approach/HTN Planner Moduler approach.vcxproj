@@ -74,7 +74,7 @@
     <LibraryPath>D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\SDL\SDL2-2.30.10\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\SDL\SDL2-2.30.10\lib\x64;C:\Users\umar.shahid\AppData\Local\Programs\Python\Python312\libs;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\SDL\SDL2-2.30.10\lib\x64;C:\Users\umar.shahid\AppData\Local\Programs\Python\Python312\libs;D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\SDL\SDL2_image-2.8.4\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,15 +127,14 @@ SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\SDL\SDL2-2.30.10\include;C:\Users\umar.shahid\AppData\Local\Programs\Python\Python312\include;C:\Users\umar.shahid\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\SDL\SDL2-2.30.10\include;C:\Users\umar.shahid\AppData\Local\Programs\Python\Python312\include;C:\Users\umar.shahid\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\SDL\SDL2_image-2.8.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;
-SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

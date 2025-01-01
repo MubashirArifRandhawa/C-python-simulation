@@ -10,13 +10,13 @@ std::once_flag flag;
 std::unique_ptr<Simulation> Simulation::instance = nullptr;
 
 Simulation::Simulation()
-    : coordSystem(-90.0f, 90.0f, -180.0f, 180.0f, 800, 600), window(nullptr), renderer(nullptr), quit(false), running(false) { // Initialize running to false
+    : coordSystem(-90.0f, 90.0f, -180.0f, 180.0f, 1067, 600), window(nullptr), renderer(nullptr), quit(false), running(false) { // Initialize running to false
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
     }
 
-    window = SDL_CreateWindow("Aircraft Simulation", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Aircraft Simulation", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1067, 600, SDL_WINDOW_SHOWN);
     if (!window) {
         SDL_Quit();
         throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
@@ -31,8 +31,8 @@ Simulation::Simulation()
 
     // Aircrafts ceated
 
-    add_aircraft("Fighter1", "Blue", 100, 5.0f, 0.0f, coordSystem);
-    add_aircraft("Bomber1", "Red", 200, 0.0f, 5.0f, coordSystem);
+    add_aircraft("Fighter1", "Blue", 100, 0.0f, 0.0f, coordSystem);
+    add_aircraft("Bomber1", "Red", 200, 0.0f, 0.0f, coordSystem);
 
     //################################ python ################################
 
