@@ -68,12 +68,12 @@ void Simulation::render_aircrafts() {
     float spacing = 15.0f; // Distance between aircraft in the grid
 
     // Red team: Top-left corner
-    float red_start_lat = 90.0f-30;  // Top of the map
-    float red_start_lon = -180.0f+40; // Left of the map
+    float red_start_lat = 90.0f-20;  // Top of the map
+    float red_start_lon = -180.0f+30; // Left of the map
 
     // Blue team: Bottom-right corner
-    float blue_start_lat = -90.0f+30; // Bottom of the map
-    float blue_start_lon = 180.0f-40; // Right of the map
+    float blue_start_lat = -90.0f+20; // Bottom of the map
+    float blue_start_lon = 180.0f-30; // Right of the map
 
     // Render Red team
     for (int row = 0; row < grid_size; ++row) {
@@ -162,7 +162,7 @@ void Simulation::initialize() {
         PyGILState_STATE gstate;
         gstate = PyGILState_Ensure();
 
-        //behavior_module.attr("call_once")();
+        behavior_module.attr("call_once")();
 
         PyGILState_Release(gstate);
 
