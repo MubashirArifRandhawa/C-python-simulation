@@ -15,7 +15,8 @@ private:
     float heading; // Heading in degrees (0 = North)
     CoordinateSystem& coordinateSystem; // Reference to a coordinate system
     float latitude, longitude; // Current position in lat/lon
-    float target_latitude, target_longitude; // Target position in lat/lon
+    float target_latitude=0; 
+    float target_longitude=0; // Target position in lat/lon
     float speed; // Speed in lat/lon units per update
 
     bool is_moving; // Flag to indicate if the aircraft is moving
@@ -23,7 +24,7 @@ private:
 public:
     // Constructor
     Aircraft(const std::string& name, const std::string& force, int health,
-        float startLatitude, float startLongitude, CoordinateSystem& coordinateSystem);
+        float startLatitude, float startLongitude, float heading, float speed, CoordinateSystem& coordinateSystem);
 
     // Getters
     std::string get_name() const;

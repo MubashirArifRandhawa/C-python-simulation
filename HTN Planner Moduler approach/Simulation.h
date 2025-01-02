@@ -20,7 +20,8 @@ public:
 
     static Simulation& get_instance(); // Returns a reference to the singleton
 
-    void add_aircraft(const std::string& name, const std::string& force, int health, float x, float y, CoordinateSystem& coordSystem);
+    void render_aircrafts();
+    void add_aircraft(const std::string& name, const std::string& force, int health, float x, float y, float heading, float speed, CoordinateSystem& coordSystem);
     const std::vector<Aircraft>& get_aircrafts() const;
     std::vector<Aircraft>& get_aircrafts_mutable();
     void run();

@@ -29,9 +29,6 @@ std::pair<int, int> CoordinateSystem::to_screen_coordinates(float latitude, floa
     int screen_x = static_cast<int>(normalized_lon * screen_width);
     int screen_y = static_cast<int>(normalized_lat * screen_height);
 
-    // Debug screen coordinates
-    std::cout << "Screen coordinates: (" << screen_x << ", " << screen_y << ")\n";
-
     return { screen_x, screen_y };
 }
 
