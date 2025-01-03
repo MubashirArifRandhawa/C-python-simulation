@@ -11,34 +11,34 @@ def set_simulation(sim):
     simulation = sim
     print("Simulation object set in Python!")
 
-#def call_once():
-#    print("call_once() is called...")
-#
-#    if simulation is None:
-#        print("Simulation is not set!")
-#        return
-#
-#    aircrafts = simulation.get_aircrafts()
-#   
-#    # Initialize positions
-#    red_lon = 0
-#    blue_lon = 0
-#    lat = 0  # Fixed: Define `lat`
-#   
-#    for aircraft in aircrafts:
-#        if aircraft.get_force() == "Red":
-#            red_lon -= 10  # Increment the position for red aircraft
-#            lon = red_lon  # Use the red longitude
-#        else:  # Assuming any non-Red aircraft is Blue
-#            blue_lon += 10  # Increment the position for blue aircraft
-#            lon = blue_lon  # Use the blue longitude
-#   
-#        aircraft.move_to(lat, lon)  # Move the aircraft
-#        aircraft_name = aircraft.get_name()  # Get the name of the aircraft
-#        print(f"Moving Aircraft {aircraft_name} to ({lat}, {lon}) in lat/lon")
-
-
 def call_once():
+    print("call_once() is called...")
+
+    if simulation is None:
+        print("Simulation is not set!")
+        return
+
+    aircrafts = simulation.get_aircrafts()
+   
+    # Initialize positions
+    red_lon = 0
+    blue_lon = 0
+    lat = 0  # Fixed: Define `lat`
+   
+    for aircraft in aircrafts:
+        if aircraft.get_force() == "Red":
+            red_lon -= 10  # Increment the position for red aircraft
+            lon = red_lon  # Use the red longitude
+        else:  # Assuming any non-Red aircraft is Blue
+            blue_lon += 10  # Increment the position for blue aircraft
+            lon = blue_lon  # Use the blue longitude
+   
+        aircraft.move_to(lat, lon)  # Move the aircraft
+        aircraft_name = aircraft.get_name()  # Get the name of the aircraft
+        print(f"Moving Aircraft {aircraft_name} to ({lat}, {lon}) in lat/lon")
+
+
+def call_once_1():
     print("call_once() is called...")
 
     if simulation is None:

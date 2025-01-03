@@ -29,8 +29,20 @@ Simulation::Simulation()
         throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
     }
 
+    // Add buttons
+    // Add buttons at the top-left corner
+
+    //buttons.push_back({ {1030, 10, 25, 25}, "Red", [this]() { render_aircrafts("red"); }});
+    //buttons.push_back({ {1030, 40, 25, 25}, "Blue", [this]() { render_aircrafts("blue"); }});
+
+    buttons.push_back({ {1030, 10, 25, 25}, "Red", [this]() { render_single_aircraft("red"); }});
+    buttons.push_back({ {1030, 40, 25, 25}, "Blue", [this]() { render_single_aircraft("blue"); }});
+
+    buttons.push_back({ {1030, 550, 25, 25}, "Green", [this]() { initialize(); }});
+
+
     // Aircrafts ceated
-    render_aircrafts();
+    // render_aircrafts();
     //add_aircraft("Fighter1", "Blue", 100, 70.0f, 60.0f, 270.0f, 0.25f, coordSystem);
     //add_aircraft("Fighter2", "Blue", 100, 60.0f, 60.0f, 270.0f, 0.25f, coordSystem);
     //add_aircraft("Fighter3", "Blue", 100, 50.0f, 60.0f, 270.0f, 0.25f, coordSystem);
@@ -63,37 +75,52 @@ Simulation& Simulation::get_instance() {
     return *instance;
 }
 
-void Simulation::render_aircrafts() {
+void Simulation::render_single_aircraft(std::string color) {
+    if (color == "red") {
+        add_aircraft("Fighter - Red", "Red", 100, 60.f, -120.0f, 90.0f, 0.25f, coordSystem);
+    }
+
+    if (color == "blue") {
+        add_aircraft("Fihgter - Blue", "Blue", 100, -60.f, 120.0f, 270.0f, 0.25f, coordSystem);
+    }
+}
+
+void Simulation::render_aircrafts(std::string color) {
     int grid_size = 5; // 7x7 grid
     float spacing = 15.0f; // Distance between aircraft in the grid
 
-    // Red team: Top-left corner
-    float red_start_lat = 90.0f-20;  // Top of the map
-    float red_start_lon = -180.0f+30; // Left of the map
+    if (color == "red") {
+        // Red team: Top-left corner
+        float red_start_lat = 90.0f - 20;  // Top of the map
+        float red_start_lon = -180.0f + 30; // Left of the map
 
-    // Blue team: Bottom-right corner
-    float blue_start_lat = -90.0f+20; // Bottom of the map
-    float blue_start_lon = 180.0f-30; // Right of the map
-
-    // Render Red team
-    for (int row = 0; row < grid_size; ++row) {
-        for (int col = 0; col < grid_size; ++col) {
-            float lat = red_start_lat - row * spacing; // Move downward
-            float lon = red_start_lon + col * spacing; // Move rightward
-            std::string name = "RedAircraft" + std::to_string(row * grid_size + col + 1);
-            add_aircraft(name, "Red", 100, lat, lon, 90.0f, 0.25f, coordSystem);
+        // Render Red team
+        for (int row = 0; row < grid_size; ++row) {
+            for (int col = 0; col < grid_size; ++col) {
+                float lat = red_start_lat - row * spacing; // Move downward
+                float lon = red_start_lon + col * spacing; // Move rightward
+                std::string name = "RedAircraft" + std::to_string(row * grid_size + col + 1);
+                add_aircraft(name, "Red", 100, lat, lon, 90.0f, 0.25f, coordSystem);
+            }
         }
     }
+    
+    if (color == "blue") {
+        // Blue team: Bottom-right corner
+        float blue_start_lat = -90.0f + 20; // Bottom of the map
+        float blue_start_lon = 180.0f - 30; // Right of the map
 
-    // Render Blue team
-    for (int row = 0; row < grid_size; ++row) {
-        for (int col = 0; col < grid_size; ++col) {
-            float lat = blue_start_lat + row * spacing; // Move upward
-            float lon = blue_start_lon - col * spacing; // Move leftward
-            std::string name = "BlueAircraft" + std::to_string(row * grid_size + col + 1);
-            add_aircraft(name, "Blue", 100, lat, lon, 270.0f, 0.25f, coordSystem);
+        // Render Blue team
+        for (int row = 0; row < grid_size; ++row) {
+            for (int col = 0; col < grid_size; ++col) {
+                float lat = blue_start_lat + row * spacing; // Move upward
+                float lon = blue_start_lon - col * spacing; // Move leftward
+                std::string name = "BlueAircraft" + std::to_string(row * grid_size + col + 1);
+                add_aircraft(name, "Blue", 100, lat, lon, 270.0f, 0.25f, coordSystem);
+            }
         }
     }
+    
 }
 
 // Add an aircraft
@@ -123,11 +150,19 @@ void Simulation::run() {
             if (e.type == SDL_QUIT) {
                 quit = true;
             }
+            else if (e.type == SDL_MOUSEBUTTONDOWN) {
+                handleMouseClick(e.button.x, e.button.y);
+            }
         }
 
         // Clear the screen
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+
+        // Render buttons
+        for (const auto& button : buttons) {
+            button.render(renderer);
+        }
 
         // Simulation Update Call
         simulation_update(aircrafts, renderer);
@@ -138,12 +173,20 @@ void Simulation::run() {
     running = false; // Set running to false when the simulation stops
 }
 
+void Simulation::handleMouseClick(int x, int y) {
+    for (const auto& button : buttons) {
+        if (button.isClicked(x, y)) {
+            button.onClick();
+        }
+    }
+}
+
 void Simulation::simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer) {
     for (auto& aircraft : aircrafts) {
         // aircraft.move_to(70.0f, 120.0f);
         aircraft.update(renderer); // Update each aircraft's state
     }
-    initialize();
+    //initialize();
     PyGILState_STATE gstate;
     gstate = PyGILState_Ensure();
 
