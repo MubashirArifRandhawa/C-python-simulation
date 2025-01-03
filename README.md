@@ -20,6 +20,9 @@ This project simulates the behavior of aircraft in a 2D space, utilizing SDL for
 
 Here is a screenshot of the simulation's render screen:
 
+#### Screenshot SIM UI
+<img src="./assets/images/new_sim_ui.png" alt="Render Screen" style="width:100%; max-width:900px; height:auto;">
+
 #### Screenshot Fareezed 
 <img src="./assets/images/renderd_aircrafts_in_grid.png" alt="Render Screen" style="width:100%; max-width:900px; height:auto;">
 

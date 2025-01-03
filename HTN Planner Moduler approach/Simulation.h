@@ -112,7 +112,10 @@ public:
     void simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer);
     void initialize();
     void handleMouseClick(int x, int y);
+    void handleMouseEvent(const SDL_Event& e);
     void render_single_aircraft(std::string color);
+    void render_single_aircraft(std::string color, int x, int y);
+    void onButtonclick(std::string color);
 
 private:
     Simulation(); // Keep the constructor private
@@ -121,11 +124,14 @@ private:
     SDL_Renderer* renderer;
     bool quit;
     std::vector<Button> buttons;
-
+    std::string selectedAircraft;
 
     std::vector<Aircraft> aircrafts;
     std::atomic<bool> running; // Tracks whether the simulation is running
     static std::unique_ptr<Simulation> instance; // Use unique_ptr for automatic memory management
+    bool deployMode;  // Flag to track if we are in deploy mode
+
+    void initialize_deploy() { deployMode = false; selectedAircraft = ""; }
 
     CoordinateSystem coordSystem;
 
