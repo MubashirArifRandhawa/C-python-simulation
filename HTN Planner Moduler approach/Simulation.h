@@ -25,7 +25,7 @@ struct Button {
 
     void render(SDL_Renderer* renderer) const {
         //Load the aircraft image
-        SDL_Texture* button_1 = IMG_LoadTexture(renderer, "../assets/icons/aircraft.png");
+        SDL_Texture* button_1 = IMG_LoadTexture(renderer, "../assets/icons/button/aircraft.png");
         if (button_1 == nullptr) {
             std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";
             return;
@@ -53,7 +53,7 @@ struct Button {
             //SDL_SetRenderDrawColor(renderer, 220, 20, 60, 255); // White border (adjust as needed)
         }
         else if (force == "Green") {
-            button_1 = IMG_LoadTexture(renderer, "../assets/icons/door_enter.png");
+            button_1 = IMG_LoadTexture(renderer, "../assets/icons/button/plan.png");
             if (button_1 == nullptr) {
                 std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";
                 return;
@@ -113,9 +113,12 @@ public:
     void initialize();
     void handleMouseClick(int x, int y);
     void handleMouseEvent(const SDL_Event& e);
+    void handleMouseWheel(SDL_Event& e);
+
     void render_single_aircraft(std::string color);
     void render_single_aircraft(std::string color, int x, int y);
     void onButtonclick(std::string color);
+    void render_aircraft_preview(const std::string& color, int x, int y);
 
 private:
     Simulation(); // Keep the constructor private
@@ -130,6 +133,7 @@ private:
     std::atomic<bool> running; // Tracks whether the simulation is running
     static std::unique_ptr<Simulation> instance; // Use unique_ptr for automatic memory management
     bool deployMode;  // Flag to track if we are in deploy mode
+    float angle = 0.0f;
 
     void initialize_deploy() { deployMode = false; selectedAircraft = ""; }
 

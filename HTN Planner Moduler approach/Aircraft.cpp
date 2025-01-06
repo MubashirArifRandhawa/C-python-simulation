@@ -143,6 +143,7 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
     int screen_y = screen_coordinates.second;
 
     // Load the aircraft image (if not already loaded)
+    //SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, "../assets/icons/aircraft_32.png");
     SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, "../assets/icons/aircraft_32.png");
     if (aircraftTexture == nullptr) {
         std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";

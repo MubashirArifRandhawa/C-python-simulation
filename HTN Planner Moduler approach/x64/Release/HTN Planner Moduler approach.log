@@ -15,9 +15,9 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.3443
   (compiling source file 'Simulation.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,16):
       the template instantiation context (the oldest one first) is
-          D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(250,45):
+          D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(280,45):
           see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(std::pair<float,float> &&) noexcept' being compiled
-              D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(250,45):
+              D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(280,45):
               see the first reference to 'std::pair<int,int>::pair' in 'Simulation::handleMouseEvent'
   
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,61): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
@@ -33,8 +33,9 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.3443
   
      Creating library D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.lib and object D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exp
   Generating code
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 3401 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  5 of 3423 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    18 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   HTN Planner Moduler approach.vcxproj -> D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exe
   'pwsh.exe' is not recognized as an internal or external command,

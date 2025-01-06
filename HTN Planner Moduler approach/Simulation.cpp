@@ -105,12 +105,47 @@ void Simulation::render_single_aircraft(std::string color) {
 
 void Simulation::render_single_aircraft(std::string color, int x, int y) {
     if (color == "Red") {
-        add_aircraft("Fighter - Red", "Red", 100, x, y, 90.0f, 0.25f, coordSystem);
+        add_aircraft("Fighter - Red", "Red", 100, x, y, angle, 0.25f, coordSystem);
     }
     else if (color == "Blue") {
-        add_aircraft("Fighter - Blue", "Blue", 100, x, y, 270.0f, 0.25f, coordSystem);
+        add_aircraft("Fighter - Blue", "Blue", 100, x, y, angle, 0.25f, coordSystem);
     }
 }
+
+void Simulation::render_aircraft_preview(const std::string& force, int x, int y) {
+
+    SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, "../assets/icons/aircraft_32.png");
+    if (aircraftTexture == nullptr) {
+        std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";
+        return;
+    }
+
+    int texture_width = 32, texture_height = 32;
+    SDL_QueryTexture(aircraftTexture, nullptr, nullptr, &texture_width, &texture_height);
+
+    SDL_Rect renderQuad = { x - texture_width / 2, y - texture_height / 2, texture_width, texture_height };
+
+    // Set aircraft color (based on the force)
+    if (force == "Blue") {
+        //SDL_SetTextureColorMod(aircraftTexture, 0, 0, 255); // Blue
+        SDL_SetTextureColorMod(aircraftTexture, 30, 144, 255); // Blue
+    }
+    else if (force == "Red") {
+        //SDL_SetTextureColorMod(aircraftTexture, 255, 0, 0); // Red
+        SDL_SetTextureColorMod(aircraftTexture, 220, 20, 60); // Red
+    }
+    else {
+        SDL_SetTextureColorMod(aircraftTexture, 255, 255, 255); // Default white
+    }
+
+     // Aircraft's heading (in degrees)
+
+    // Rotate the aircraft image based on its heading (rotate around its center)
+    SDL_RenderCopyEx(renderer, aircraftTexture, nullptr, &renderQuad, angle, nullptr, SDL_FLIP_NONE);
+    SDL_DestroyTexture(aircraftTexture);
+
+}
+
 
 void Simulation::render_aircrafts(std::string color) {
     int grid_size = 5; // 7x7 grid
@@ -171,6 +206,8 @@ void Simulation::run() {
     SDL_Event e;
     running = true; // Set running to true when the simulation starts
 
+    int mouseX = 0, mouseY = 0;
+
     while (!quit) {
         
         while (SDL_PollEvent(&e)) {
@@ -181,6 +218,13 @@ void Simulation::run() {
                 //handleMouseClick(e.button.x, e.button.y);
                 handleMouseEvent(e);
             }
+            else if (e.type == SDL_MOUSEMOTION) {
+                SDL_GetMouseState(&mouseX, &mouseY);
+            }
+            else if (e.type == SDL_MOUSEWHEEL) {
+                handleMouseWheel(e);
+            }
+
         }
 
         // Clear the screen
@@ -192,6 +236,11 @@ void Simulation::run() {
             button.render(renderer);
         }
 
+
+        // Render aircraft following mouse pointer in deployMode
+        if (deployMode && !selectedAircraft.empty()) {
+            render_aircraft_preview(selectedAircraft, mouseX, mouseY);
+        }
         // Simulation Update Call
         simulation_update(aircrafts, renderer);
 
@@ -200,25 +249,6 @@ void Simulation::run() {
     }
     running = false; // Set running to false when the simulation stops
 }
-
-//void Simulation::handleMouseClick(int x, int y) {
-//    for (const auto& button : buttons) {
-//        if (button.isClicked(x, y)) {
-//            button.onClick();
-//            std::cout << "mosue location: " << x <<", " << y << std::endl;
-//        }
-//    }
-//}
-//
-//void Simulation::handleMouseClick(int x, int y) {
-//    std::cout << "mosue location: " << x << ", " << y << std::endl;
-//    std::cout << "deploy mode: " << deployMode << " selected aircraft: " << selectedAircraft << std::endl;
-//    if (deployMode && !selectedAircraft.empty()) {
-//        // Deploy the selected aircraft at the mouse location
-//        render_single_aircraft(selectedAircraft, x, y);
-//        deployMode = false;  // Turn off deploy mode after deploying
-//    }
-//}
 
 void Simulation::handleMouseEvent(const SDL_Event& e) {
     if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
@@ -295,6 +325,13 @@ void Simulation::handleMouseClick(int x, int y) {
     }
 }
 
+void Simulation::handleMouseWheel(SDL_Event& e) {
+    if (e.type == SDL_MOUSEWHEEL) {
+        angle += e.wheel.y * 5.0f; // Adjust rotation by 5 degrees per scroll step
+    }
+}
+
+
 
 void Simulation::simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer) {
     for (auto& aircraft : aircrafts) {
@@ -315,17 +352,48 @@ void Simulation::simulation_update(std::vector<Aircraft>& aircrafts, SDL_Rendere
 
 void Simulation::initialize() {
     //if (!is_initialized) {
-        std::cout << "Simulation initialized!" << std::endl;
+    /*    std::cout << "Simulation initialized!" << std::endl;
         
         PyGILState_STATE gstate;
         gstate = PyGILState_Ensure();
 
         behavior_module.attr("call_once")();
 
-        PyGILState_Release(gstate);
+        PyGILState_Release(gstate);*/
 
         //is_initialized = true;
     //}
+
+    PyGILState_STATE gstate;
+    gstate = PyGILState_Ensure();
+
+    try {
+        // Call the Python function and capture the return value
+        pybind11::object result = behavior_module.attr("call_once")();
+
+        // Process the returned value (example for a dictionary)
+        if (pybind11::isinstance<pybind11::dict>(result)) {
+            pybind11::dict result_dict = result.cast<pybind11::dict>();
+            std::string status = pybind11::str(result_dict["status"]);
+            pybind11::list data = result_dict["data"].cast<pybind11::list>();
+
+            std::cout << "Status: " << status << "\n";
+            std::cout << "Data: ";
+            for (auto item : data) {
+                std::cout << item.cast<int>() << " ";
+            }
+            std::cout << "\n";
+        }
+        else {
+            std::cerr << "Unexpected return type from call_once\n";
+        }
+    }
+    catch (const pybind11::error_already_set& e) {
+        std::cerr << "Python error: " << e.what() << "\n";
+    }
+
+    PyGILState_Release(gstate);
+
 }
 
 // Check if the simulation is running

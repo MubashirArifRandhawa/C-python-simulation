@@ -38,6 +38,9 @@ def call_once():
         print(f"Moving Aircraft {aircraft_name} to ({lat}, {lon}) in lat/lon")
 
 
+    return {"status": "success", "data": [1,2,3]}
+
+
 def call_once_1():
     print("call_once() is called...")
 
