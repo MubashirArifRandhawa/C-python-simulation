@@ -7,6 +7,7 @@
 //#include <SDL.h>
 //#include <SDL_image.h>
 #include "Aircraft.h"
+#include "Waypoint.h"
 #include <atomic>
 #include "CoordinateSystem.h"
 #include <iostream>
@@ -119,6 +120,8 @@ public:
     void render_single_aircraft(std::string color, int x, int y);
     void onButtonclick(std::string color);
     void render_aircraft_preview(const std::string& color, int x, int y);
+    void add_waypoint(const std::string& name, const std::string& force, float x, float y, CoordinateSystem& coordSystem);
+    void render_waypoint(std::string color, int x, int y);
 
 private:
     Simulation(); // Keep the constructor private
@@ -128,14 +131,18 @@ private:
     bool quit;
     std::vector<Button> buttons;
     std::string selectedAircraft;
+    std::string selectedWaypoint;
 
     std::vector<Aircraft> aircrafts;
+    std::vector<Waypoint> waypoints;
+
+
     std::atomic<bool> running; // Tracks whether the simulation is running
     static std::unique_ptr<Simulation> instance; // Use unique_ptr for automatic memory management
     bool deployMode;  // Flag to track if we are in deploy mode
     float angle = 0.0f;
 
-    void initialize_deploy() { deployMode = false; selectedAircraft = ""; }
+    void initialize_deploy() { deployMode = false; selectedAircraft = ""; selectedWaypoint=""; }
 
     CoordinateSystem coordSystem;
 

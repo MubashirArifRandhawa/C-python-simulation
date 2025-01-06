@@ -1,8 +1,17 @@
-﻿  Simulation.cpp
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(108,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(108,51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(111,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(111,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  Aircraft.cpp
+  aircraft_simulation.cpp
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(86,72): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Aircraft.cpp(93,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  main.cpp
+  Simulation.cpp
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(125,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(125,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(128,51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(128,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(134,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(134,51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(137,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(137,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,16): warning C4244: 'initializing': conversion from '_Ty' to '_Ty1', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,16): warning C4244:         with
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,16): warning C4244:         [
@@ -15,9 +24,9 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.3443
   (compiling source file 'Simulation.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,16):
       the template instantiation context (the oldest one first) is
-          D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(280,45):
+          D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(311,45):
           see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(std::pair<float,float> &&) noexcept' being compiled
-              D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(280,45):
+              D:\Cplusplus\HTN Planner Moduler approach\HTN Planner Moduler approach\Simulation.cpp(311,45):
               see the first reference to 'std::pair<int,int>::pair' in 'Simulation::handleMouseEvent'
   
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,61): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
@@ -31,11 +40,12 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.3443
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\utility(292,61): warning C4244:         ]
   (compiling source file 'Simulation.cpp')
   
+  Waypoint.cpp
      Creating library D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.lib and object D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exp
   Generating code
-  5 of 3423 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    18 functions had inline decision re-evaluated but remain unchanged
+  131 of 3508 functions ( 3.7%) were compiled, the rest were copied from previous compilation.
+    85 functions were new in current compilation
+    254 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   HTN Planner Moduler approach.vcxproj -> D:\Cplusplus\HTN Planner Moduler approach\x64\Release\HTN Planner Moduler approach.exe
   'pwsh.exe' is not recognized as an internal or external command,

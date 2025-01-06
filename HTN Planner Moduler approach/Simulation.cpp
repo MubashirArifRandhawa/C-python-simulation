@@ -46,6 +46,13 @@ Simulation::Simulation()
         onButtonclick("blue");
     } });
 
+    buttons.push_back({ {1030, 70, 25, 25}, "Red", [this]() {
+    onButtonclick("red-waypoint");
+} });
+    buttons.push_back({ {1030, 100, 25, 25}, "Blue", [this]() {
+        onButtonclick("blue-waypoint");
+    } });
+
     buttons.push_back({ {1030, 550, 25, 25}, "Green", [this]() { initialize(); }});
 
 
@@ -84,6 +91,16 @@ void Simulation::onButtonclick(std::string color) {
         selectedAircraft = "Blue";
         deployMode = true;
     }
+
+    if (color == "red-waypoint") {
+        selectedWaypoint = "Red";
+        deployMode = true;
+    }
+
+    if (color == "blue-waypoint") {
+        selectedWaypoint = "Blue";
+        deployMode = true;
+    }
 }
 
 Simulation& Simulation::get_instance() {
@@ -100,6 +117,15 @@ void Simulation::render_single_aircraft(std::string color) {
 
     if (color == "blue") {
         add_aircraft("Fihgter - Blue", "Blue", 100, -60.f, 120.0f, 270.0f, 0.25f, coordSystem);
+    }
+}
+
+void Simulation::render_waypoint(std::string color, int x, int y) {
+    if (color == "Red") {
+        add_waypoint("Fighter - Red", "Red", x, y, coordSystem);
+    }
+    else if (color == "Blue") {
+        add_waypoint("Fighter - Blue", "Blue", x, y, coordSystem);
     }
 }
 
@@ -189,6 +215,11 @@ void Simulation::render_aircrafts(std::string color) {
 void Simulation::add_aircraft(const std::string& name, const std::string& force, int health, float x, float y, float heading, float speed, CoordinateSystem& coordSystem) {
     // Create an aircraft
     aircrafts.emplace_back(name, force, health, x, y, heading, speed, coordSystem);
+}
+
+void Simulation::add_waypoint(const std::string& name, const std::string& force, float x, float y, CoordinateSystem& coordSystem) {
+    // Create an aircraft
+    waypoints.emplace_back(name, force, x, y, coordSystem);
 }
 
 // Get aircrafts (const version)
@@ -282,6 +313,14 @@ void Simulation::handleMouseEvent(const SDL_Event& e) {
                 int lon = lat_lon.second;
                 render_single_aircraft(selectedAircraft, lat, lon);
             }
+
+            if (deployMode && !selectedWaypoint.empty()) {
+                // Deploy the selected aircraft at the mouse location
+                std::pair<int, int> lat_lon = coordSystem.to_lat_lon(x, y);
+                int lat = lat_lon.first;
+                int lon = lat_lon.second;
+                render_waypoint(selectedWaypoint, lat, lon);
+            }
         }
 
     }
@@ -335,8 +374,11 @@ void Simulation::handleMouseWheel(SDL_Event& e) {
 
 void Simulation::simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer) {
     for (auto& aircraft : aircrafts) {
-        // aircraft.move_to(70.0f, 120.0f);
         aircraft.update(renderer); // Update each aircraft's state
+    }
+
+    for (auto& waypoint : waypoints) {
+        waypoint.update(renderer); // Update each aircraft's state
     }
     //initialize();
     PyGILState_STATE gstate;
