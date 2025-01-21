@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath> // For sin and cos
 #include "CoordinateSystem.h"
+#include "FileLoader.cpp"
 
 Waypoint::Waypoint(const std::string& name, const std::string& force,
     float startLatitude, float startLongitude, CoordinateSystem& coordinateSystem)
@@ -14,6 +15,7 @@ Waypoint::Waypoint(const std::string& name, const std::string& force,
     else {
         this->force = force;
     }
+    iconPath = FileLoader::getSimulationObjectTexture(SimulationObjectType::Waypoint);
 }
 
 std::string Waypoint::get_name() const {
@@ -35,13 +37,10 @@ void Waypoint::draw(SDL_Renderer* renderer) const {
     int screen_x = screen_coordinates.first;
     int screen_y = screen_coordinates.second;
 
+    SDL_Texture* waypointTexture = loadTexture(renderer, iconPath);
+    if (!waypointTexture) return;
+
     // Load the aircraft image (if not already loaded)
-    SDL_Texture* waypointTexture = IMG_LoadTexture(renderer, "../assets/icons/waypoint_32.png");
-    //SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, "../assets/icons/default.png");
-    if (waypointTexture == nullptr) {
-        std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";
-        return;
-    }
 
     // Get the dimensions of the aircraft texture
     int texture_width = 512, texture_height = 512;
@@ -51,24 +50,13 @@ void Waypoint::draw(SDL_Renderer* renderer) const {
     SDL_Rect renderQuad = { screen_x - texture_width / 2, screen_y - texture_height / 2, texture_width, texture_height };
 
     // Set aircraft color (based on the force)
-    if (force == "Blue") {
-        //SDL_SetTextureColorMod(aircraftTexture, 0, 0, 255); // Blue
-        SDL_SetTextureColorMod(waypointTexture, 30, 144, 255); // Blue
-    }
-    else if (force == "Red") {
-        //SDL_SetTextureColorMod(aircraftTexture, 255, 0, 0); // Red
-        SDL_SetTextureColorMod(waypointTexture, 220, 20, 60); // Red
-    }
-    else {
-        SDL_SetTextureColorMod(waypointTexture, 255, 255, 255); // Default white
-    }
+    applyColorMod(waypointTexture);
 
     // Calculate the angle in radians and ensure it's correct
     float angle = 0; // Aircraft's heading (in degrees)
 
     // Rotate the aircraft image based on its heading (rotate around its center)
     SDL_RenderCopyEx(renderer, waypointTexture, nullptr, &renderQuad, angle, nullptr, SDL_FLIP_NONE);
-
 
     // Free the texture after rendering
     SDL_DestroyTexture(waypointTexture);
@@ -77,4 +65,27 @@ void Waypoint::draw(SDL_Renderer* renderer) const {
 
 void Waypoint::update(SDL_Renderer* renderer) {
     draw(renderer);
+}
+
+SDL_Texture* Waypoint::loadTexture(SDL_Renderer* renderer, const std::string& path) {
+    SDL_Texture* texture = IMG_LoadTexture(renderer, path.c_str());
+    if (!texture) {
+        std::cerr << "Error loading texture (" << path << "): " << SDL_GetError() << "\n";
+    }
+    return texture;
+}
+
+void Waypoint::applyColorMod(SDL_Texture* texture) const {
+    if (force == "Blue") {
+        SDL_SetTextureColorMod(texture, 30, 144, 255); // Blue
+    }
+    else if (force == "Red") {
+        SDL_SetTextureColorMod(texture, 220, 20, 60);  // Red
+    }
+    else if (force == "Green") {
+        SDL_SetTextureColorMod(texture, 80, 200, 120); // Green
+    }
+    else {
+        SDL_SetTextureColorMod(texture, 255, 255, 255);
+    }
 }

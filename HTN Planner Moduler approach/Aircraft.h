@@ -3,10 +3,12 @@
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "SimulationObject.h"
 
 
 class CoordinateSystem;
 
+//class Aircraft : public SimulationObject {
 class Aircraft {
 private:
     std::string name;
@@ -20,6 +22,7 @@ private:
     float speed; // Speed in lat/lon units per update
 
     bool is_moving; // Flag to indicate if the aircraft is moving
+    std::string iconPath;
 
 public:
     // Constructor
@@ -43,7 +46,10 @@ public:
     void draw(SDL_Renderer* renderer) const;
     void adjustHeadingToNorth();
     void set_heading(float new_heading);
+    
 
 private:
     void update_position(); // Gradually move towards the target
+    static SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& path);
+    void applyColorMod(SDL_Texture* texture) const;
 };

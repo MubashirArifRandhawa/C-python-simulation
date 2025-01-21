@@ -39,21 +39,21 @@ Simulation::Simulation()
     //buttons.push_back({ {1030, 40, 25, 25}, "Blue", [this]() { render_single_aircraft("blue"); }});
     initialize_deploy();
 
-    buttons.push_back({ {1030, 10, 25, 25}, "Red", [this]() {
+    buttons.push_back({ {1030, 10, 25, 25}, "Red", SimulationObjectType::Aircraft, [this]() {
         onButtonclick("red");
     } });
-    buttons.push_back({ {1030, 40, 25, 25}, "Blue", [this]() {
+    buttons.push_back({ {1030, 40, 25, 25}, "Blue", SimulationObjectType::Aircraft, [this]() {
         onButtonclick("blue");
     } });
 
-    buttons.push_back({ {1030, 70, 25, 25}, "Red", [this]() {
+    buttons.push_back({ {1030, 70, 25, 25}, "Red", SimulationObjectType::Waypoint, [this]() {
     onButtonclick("red-waypoint");
-} });
-    buttons.push_back({ {1030, 100, 25, 25}, "Blue", [this]() {
+    } });
+    buttons.push_back({ {1030, 100, 25, 25}, "Blue", SimulationObjectType::Waypoint, [this]() {
         onButtonclick("blue-waypoint");
     } });
 
-    buttons.push_back({ {1030, 550, 25, 25}, "Green", [this]() { initialize(); }});
+    buttons.push_back({ {1030, 550, 25, 25}, "Green", SimulationObjectType::Unknown, [this]() { initialize(); }});
 
 
     // Aircrafts ceated
@@ -81,25 +81,34 @@ Simulation::~Simulation() {
     SDL_Quit();
 }
 
+std::string Simulation::simulationObjectTypeToString(SimulationObjectType type) {
+    switch (type) {
+    case SimulationObjectType::Aircraft: return "Aircraft";
+    case SimulationObjectType::Waypoint: return "Waypoint";
+    case SimulationObjectType::Missile: return "Missile";
+    default: return "Unknown";
+    }
+}
+
 void Simulation::onButtonclick(std::string color) {
     if (color == "red") {
         selectedAircraft = "Red";
-        deployMode = true;
+        deployMode = SimulationObjectType::Aircraft;
     }
 
     if (color == "blue") {
         selectedAircraft = "Blue";
-        deployMode = true;
+        deployMode = SimulationObjectType::Aircraft;
     }
 
     if (color == "red-waypoint") {
         selectedWaypoint = "Red";
-        deployMode = true;
+        deployMode = SimulationObjectType::Waypoint;
     }
 
     if (color == "blue-waypoint") {
         selectedWaypoint = "Blue";
-        deployMode = true;
+        deployMode = SimulationObjectType::Waypoint;
     }
 }
 
@@ -139,8 +148,8 @@ void Simulation::render_single_aircraft(std::string color, int x, int y) {
 }
 
 void Simulation::render_aircraft_preview(const std::string& force, int x, int y) {
-
-    SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, "../assets/icons/aircraft_32.png");
+    
+    SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, FileLoader::getSimulationObjectTexture(SimulationObjectType::Aircraft).c_str());
     if (aircraftTexture == nullptr) {
         std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";
         return;
@@ -227,6 +236,10 @@ const std::vector<Aircraft>& Simulation::get_aircrafts() const {
     return aircrafts;
 }
 
+const std::vector<Waypoint>& Simulation::get_waypoints() const {
+    return waypoints;
+}
+
 // Get aircrafts (modifiable version)
 std::vector<Aircraft>& Simulation::get_aircrafts_mutable() {
     return aircrafts;
@@ -269,7 +282,7 @@ void Simulation::run() {
 
 
         // Render aircraft following mouse pointer in deployMode
-        if (deployMode && !selectedAircraft.empty()) {
+        if (deployMode == SimulationObjectType::Aircraft && !selectedAircraft.empty()) {
             render_aircraft_preview(selectedAircraft, mouseX, mouseY);
         }
         // Simulation Update Call
@@ -303,10 +316,10 @@ void Simulation::handleMouseEvent(const SDL_Event& e) {
         // If no button is clicked, check for deploying aircraft
         if (!buttonClicked) {
             std::cout << "Screen clicked at (" << x << ", " << y << ")\n";
-            std::cout << "Deploy mode: " << deployMode
+            std::cout << "Deploy mode: " << simulationObjectTypeToString(deployMode)
                 << ", Selected aircraft: " << selectedAircraft << "\n";
 
-            if (deployMode && !selectedAircraft.empty()) {
+            if (deployMode == SimulationObjectType::Aircraft && !selectedAircraft.empty()) {
                 // Deploy the selected aircraft at the mouse location
                 std::pair<int, int> lat_lon = coordSystem.to_lat_lon(x, y);
                 int lat = lat_lon.first;
@@ -314,7 +327,7 @@ void Simulation::handleMouseEvent(const SDL_Event& e) {
                 render_single_aircraft(selectedAircraft, lat, lon);
             }
 
-            if (deployMode && !selectedWaypoint.empty()) {
+            if (deployMode == SimulationObjectType::Waypoint && !selectedWaypoint.empty()) {
                 // Deploy the selected aircraft at the mouse location
                 std::pair<int, int> lat_lon = coordSystem.to_lat_lon(x, y);
                 int lat = lat_lon.first;
@@ -326,9 +339,9 @@ void Simulation::handleMouseEvent(const SDL_Event& e) {
     }
     else {
         // Always reset deploy mode after handling the click
-        if (deployMode) {
+        if (deployMode != SimulationObjectType::Unknown) {
             std::cout << "Deploy mode deactivated.\n";
-            deployMode = false;
+            deployMode = SimulationObjectType::Unknown;
         }
     }
 }
@@ -350,10 +363,10 @@ void Simulation::handleMouseClick(int x, int y) {
     // If no button is clicked, check for deploying aircraft
     if (!buttonClicked) {
         std::cout << "Screen clicked at (" << x << ", " << y << ")\n";
-        std::cout << "Deploy mode: " << deployMode
+        std::cout << "Deploy mode: " << simulationObjectTypeToString(deployMode)
             << ", Selected aircraft: " << selectedAircraft << "\n";
 
-        if (deployMode && !selectedAircraft.empty()) {
+        if (deployMode == SimulationObjectType::Aircraft && !selectedAircraft.empty()) {
             // Deploy the selected aircraft at the mouse location
             std::pair<int, int> lat_lon = coordSystem.to_lat_lon(x, y);
             int lat = lat_lon.first;

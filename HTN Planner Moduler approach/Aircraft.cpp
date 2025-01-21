@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath> // For sin and cos
 #include "CoordinateSystem.h"
+#include "FileLoader.cpp"
 
 // Constructor
 Aircraft::Aircraft(const std::string& name, const std::string& force, int health,
@@ -15,6 +16,8 @@ Aircraft::Aircraft(const std::string& name, const std::string& force, int health
     else {
         this->force = force;
     }
+
+    iconPath = FileLoader::getSimulationObjectTexture(SimulationObjectType::Aircraft);
 }
 
 void Aircraft::adjustHeadingToNorth() {
@@ -142,33 +145,20 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
     int screen_x = screen_coordinates.first;
     int screen_y = screen_coordinates.second;
 
-    // Load the aircraft image (if not already loaded)
-    SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, "../assets/icons/aircraft_32.png");
-    //SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, "../assets/icons/default.png");
-    if (aircraftTexture == nullptr) {
-        std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";
-        return;
-    }
+    SDL_Texture* aircraftTexture = loadTexture(renderer, iconPath);
+    if (!aircraftTexture) return;
 
+
+    // Calculate the render rectangle for the image
     // Get the dimensions of the aircraft texture
-    int texture_width = 512, texture_height=512;
+    int texture_width = 32, texture_height=32;
     SDL_QueryTexture(aircraftTexture, nullptr, nullptr, &texture_width, &texture_height);
 
     // Calculate the position for the aircraft image (centered around the coordinates)
     SDL_Rect renderQuad = { screen_x - texture_width / 2, screen_y - texture_height / 2, texture_width, texture_height };
 
     // Set aircraft color (based on the force)
-    if (force == "Blue") {
-        //SDL_SetTextureColorMod(aircraftTexture, 0, 0, 255); // Blue
-        SDL_SetTextureColorMod(aircraftTexture, 30, 144, 255); // Blue
-    }
-    else if (force == "Red") {
-        //SDL_SetTextureColorMod(aircraftTexture, 255, 0, 0); // Red
-        SDL_SetTextureColorMod(aircraftTexture, 220, 20, 60); // Red
-    }
-    else {
-        SDL_SetTextureColorMod(aircraftTexture, 255, 255, 255); // Default white
-    }
+    applyColorMod(aircraftTexture);
 
     // Calculate the angle in radians and ensure it's correct
     float angle = get_heading(); // Aircraft's heading (in degrees)
@@ -176,30 +166,15 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
     // Rotate the aircraft image based on its heading (rotate around its center)
     SDL_RenderCopyEx(renderer, aircraftTexture, nullptr, &renderQuad, angle, nullptr, SDL_FLIP_NONE);
 
-
     // Free the texture after rendering
     SDL_DestroyTexture(aircraftTexture);
 
-    // Draw the heading line
-    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White
-
-    //// Calculate the endpoint of the heading line
-    //float line_length = 30.0f; // Length of the heading line in pixels
-    //float heading_radians = get_heading() * M_PI / 180.0f;  // Convert heading from degrees to radians
-
-    //// Adjust for SDL's coordinate system, flip Y-axis
-    //int end_x = static_cast<int>(screen_x + line_length * std::cos(heading_radians));  // X stays as is
-    //int end_y = static_cast<int>(screen_y - line_length * std::sin(heading_radians)); // Flip the Y-axis for SDL
-
-    //// Draw the heading line
-    //SDL_RenderDrawLine(renderer, screen_x, screen_y, end_x, end_y);
     if (is_moving) {
         std::pair<int, int> target_coordinates = coordinateSystem.to_screen_coordinates(target_latitude, target_longitude);
         int target_x = target_coordinates.first;
         int target_y = target_coordinates.second;
 
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);  // Green for target line
-        // SDL_RenderDrawLine(renderer, 1067/2, 600/2, target_x, target_y);
         SDL_RenderDrawLine(renderer, screen_x, screen_y, target_x, target_y);
     }
 
@@ -216,4 +191,27 @@ void Aircraft::update(SDL_Renderer* renderer) {
     // Update the position if the aircraft is moving
     update_position();
     draw(renderer);
+}
+
+SDL_Texture* Aircraft::loadTexture(SDL_Renderer* renderer, const std::string& path) {
+    SDL_Texture* texture = IMG_LoadTexture(renderer, path.c_str());
+    if (!texture) {
+        std::cerr << "Error loading texture (" << path << "): " << SDL_GetError() << "\n";
+    }
+    return texture;
+}
+
+void Aircraft::applyColorMod(SDL_Texture* texture) const {
+    if (force == "Blue") {
+        SDL_SetTextureColorMod(texture, 30, 144, 255); // Blue
+    }
+    else if (force == "Red") {
+        SDL_SetTextureColorMod(texture, 220, 20, 60);  // Red
+    }
+    else if (force == "Green") {
+        SDL_SetTextureColorMod(texture, 80, 200, 120); // Green
+    }
+    else {
+        SDL_SetTextureColorMod(texture, 255, 255, 255);
+    }
 }

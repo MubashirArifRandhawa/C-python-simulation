@@ -17,9 +17,15 @@ PYBIND11_MODULE(aircraft_simulation, m) {
         .def("get_heading", &Aircraft::get_heading)
         .def("is_alive", &Aircraft::is_alive);
 
+    py::class_<Waypoint>(m, "Waypoint")
+        .def("get_name", &Waypoint::get_name)
+        .def("get_force", &Waypoint::get_force)
+        .def("get_position", &Waypoint::get_position);
+
     py::class_<Simulation>(m, "Simulation")
         .def("add_aircraft", &Simulation::add_aircraft)
         .def("get_aircrafts", &Simulation::get_aircrafts, py::return_value_policy::reference_internal)
+        .def("get_waypoints", &Simulation::get_waypoints, py::return_value_policy::reference_internal)
         .def("is_quit", &Simulation::is_quit);
 
     m.def("get_simulation_instance", []() -> Simulation& {
