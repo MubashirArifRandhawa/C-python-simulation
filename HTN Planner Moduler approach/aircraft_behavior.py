@@ -22,8 +22,8 @@ def call_once():
     waypoints = simulation.get_waypoints()
    
     # Separate waypoints by color
-    red_waypoints = [wp for wp in waypoints if wp.get_color() == "Red"]
-    blue_waypoints = [wp for wp in waypoints if wp.get_color() == "Blue"]
+    red_waypoints = [wp for wp in waypoints if wp.get_force() == "Red"]
+    blue_waypoints = [wp for wp in waypoints if wp.get_force() == "Blue"]
 
     # Iterate through each aircraft and move it to a waypoint
     for aircraft in aircrafts:

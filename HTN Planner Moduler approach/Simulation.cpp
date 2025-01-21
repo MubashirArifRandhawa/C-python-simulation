@@ -149,7 +149,8 @@ void Simulation::render_single_aircraft(std::string color, int x, int y) {
 
 void Simulation::render_aircraft_preview(const std::string& force, int x, int y) {
     
-    SDL_Texture* aircraftTexture = IMG_LoadTexture(renderer, FileLoader::getSimulationObjectTexture(SimulationObjectType::Aircraft).c_str());
+    SDL_Texture* aircraftTexture;
+    aircraftTexture = IMG_LoadTexture(renderer, FileLoader::getSimulationObjectTexture(SimulationObjectType::Aircraft).c_str());
     if (aircraftTexture == nullptr) {
         std::cerr << "Error loading aircraft texture: " << SDL_GetError() << "\n";
         return;
