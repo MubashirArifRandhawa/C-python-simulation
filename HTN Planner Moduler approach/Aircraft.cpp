@@ -3,12 +3,14 @@
 #include <cmath> // For sin and cos
 #include "CoordinateSystem.h"
 #include "FileLoader.cpp"
+#include "Simulation.h"
+
 
 // Constructor
 Aircraft::Aircraft(const std::string& name, const std::string& force, int health,
     float startLatitude, float startLongitude, float heading, float speed, CoordinateSystem& coordinateSystem)
     : name(name), health(health), latitude(startLatitude), longitude(startLongitude),
-    coordinateSystem(coordinateSystem), heading(heading), speed(speed), is_moving(false) { // Default heading is North
+    coordinateSystem(coordinateSystem), heading(heading), speed(speed), is_moving(false), id(nextID++) { // Default heading is North
     if (force != "Red" && force != "Blue") {
         std::cerr << "Invalid force value: " << force << ". Force must be 'Red' or 'Blue'.\n";
         this->force = "Blue"; // Default to Blue if invalid
@@ -18,6 +20,7 @@ Aircraft::Aircraft(const std::string& name, const std::string& force, int health
     }
 
     iconPath = FileLoader::getSimulationObjectTexture(SimulationObjectType::Aircraft);
+    radar = Radar(150, 45.0f);
 }
 
 void Aircraft::adjustHeadingToNorth() {
@@ -28,6 +31,10 @@ void Aircraft::adjustHeadingToNorth() {
 }
 
 // Getter Methods
+int Aircraft::get_id() const {
+    return id;
+}
+
 std::string Aircraft::get_name() const {
     return name;
 }
@@ -56,6 +63,10 @@ void Aircraft::set_heading(float new_heading) {
     }
 }
 
+
+std::pair<int, int> Aircraft::get_position_xy() const {
+    return coordinateSystem.to_screen_coordinates(latitude, longitude);
+}
 
 void Aircraft::move_to(float newLatitude, float newLongitude) {
     target_latitude = newLatitude;
@@ -145,6 +156,8 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
     int screen_x = screen_coordinates.first;
     int screen_y = screen_coordinates.second;
 
+    radar.drawRadarCone(renderer, screen_x, screen_y, get_heading()-90);
+
     SDL_Texture* aircraftTexture = loadTexture(renderer, iconPath);
     if (!aircraftTexture) return;
 
@@ -191,6 +204,24 @@ void Aircraft::update(SDL_Renderer* renderer) {
     // Update the position if the aircraft is moving
     update_position();
     draw(renderer);
+    // In your render function
+    //SDL_Color radarColor = { 255, 255, 0, 128 }; // Yellow with transparency
+    //radar.drawRadarCone(renderer, aircraftX, aircraftY, 200.0f, 90.0f, 45.0f, radarColor);
+        // Get screen coordinates of the aircraft
+    std::pair<int, int> screen_coordinates = coordinateSystem.to_screen_coordinates(latitude, longitude);
+    int screen_x = screen_coordinates.first;
+    int screen_y = screen_coordinates.second;
+
+
+    std::vector<std::reference_wrapper<Aircraft>> detectedEntities = radar.getEntitiesInRadarCone(Simulation::get_instance().get_aircrafts_mutable(), screen_x, screen_y, get_heading() - 90);
+
+    for (const auto& entity : detectedEntities) {
+        if (&entity.get() == this) // Compare the addresses
+            continue;
+
+        std::cout << "Entity in radar cone: " << entity.get().get_name() <<" - " << entity.get().get_id() << "\n";
+    }
+
 }
 
 SDL_Texture* Aircraft::loadTexture(SDL_Renderer* renderer, const std::string& path) {

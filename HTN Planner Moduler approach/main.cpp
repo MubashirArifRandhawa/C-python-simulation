@@ -2,6 +2,8 @@
 #include "Simulation.h"
 #include <iostream>
 
+int Aircraft::nextID = 1;
+
 int SDL_main(int argc, char* argv[]) {
     try {
         Simulation& simulation = Simulation::get_instance();

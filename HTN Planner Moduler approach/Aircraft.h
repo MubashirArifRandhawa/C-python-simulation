@@ -4,13 +4,16 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "SimulationObject.h"
-
+#include "Radar.h"
 
 class CoordinateSystem;
+class Simulation;
 
 //class Aircraft : public SimulationObject {
 class Aircraft {
 private:
+    static int nextID;
+    int id;
     std::string name;
     std::string force; // "Red" or "Blue"
     int health;
@@ -24,17 +27,21 @@ private:
     bool is_moving; // Flag to indicate if the aircraft is moving
     std::string iconPath;
 
+    Radar radar;
+
 public:
     // Constructor
     Aircraft(const std::string& name, const std::string& force, int health,
         float startLatitude, float startLongitude, float heading, float speed, CoordinateSystem& coordinateSystem);
 
     // Getters
+    int get_id() const;
     std::string get_name() const;
     std::string get_force() const;
     int get_health() const;
     float get_heading() const;
     std::pair<float, float> get_position() const;
+    std::pair<int, int> get_position_xy() const;
 
     // Movement
     void move_to(float newLatitude, float newLongitude); // Initiate movement
