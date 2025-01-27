@@ -1,11 +1,29 @@
-﻿  Aircraft.cpp
-D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Aircraft.cpp(100,72): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Aircraft.cpp(107,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+﻿  Radar.cpp
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(18,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(19,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(20,55): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(29,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(37,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(61,34): warning C4305: '+=': truncation from 'double' to 'float'
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(62,42): warning C4305: '-=': truncation from 'double' to 'float'
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(70,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(71,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(72,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(75,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(76,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(77,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(78,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(92,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(93,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(94,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(95,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(111,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Cplusplus\Aircraft-Simulation\HTN Planner Moduler approach\Radar.cpp(112,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
      Creating library D:\Cplusplus\Aircraft-Simulation\x64\Release\HTN Planner Moduler approach.lib and object D:\Cplusplus\Aircraft-Simulation\x64\Release\HTN Planner Moduler approach.exp
   Generating code
-  4 of 3732 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  3 of 3732 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    31 functions had inline decision re-evaluated but remain unchanged
+    21 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   HTN Planner Moduler approach.vcxproj -> D:\Cplusplus\Aircraft-Simulation\x64\Release\HTN Planner Moduler approach.exe
   'pwsh.exe' is not recognized as an internal or external command,

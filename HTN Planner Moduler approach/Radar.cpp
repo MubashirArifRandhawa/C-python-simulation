@@ -13,22 +13,15 @@ Radar::Radar(int radius, float angle) : radarRadius(radius), radarAngle(angle) {
 
 std::vector<std::reference_wrapper<Aircraft>> Radar::getEntitiesInRadarCone(std::vector<Aircraft>& entities, int centerX, int centerY, float heading) {
     std::vector<std::reference_wrapper<Aircraft>> entitiesInCone;
-//std::vector<Aircraft&> Radar::getEntitiesInRadarCone(std::vector<Aircraft>& entities, int centerX, int centerY, float heading) {
-    
-    //std::vector<Aircraft&> entitiesInCone;
 
     // Convert heading and angles to radians
-    float headingRad = heading * M_PI / 180.0f;
-    float leftEdgeRad = headingRad - (radarAngle * M_PI / 180.0f);
-    float rightEdgeRad = headingRad + (radarAngle * M_PI / 180.0f);
+    float radarHeadingRad = normalizeAngle(heading * M_PI / 180.0f);
+    float leftBound = normalizeAngle(radarHeadingRad - (radarAngle * M_PI / 180.0f));
+    float rightBound = normalizeAngle(radarHeadingRad + (radarAngle * M_PI / 180.0f));
 
     for (auto& entity : entities) {
-        // Calculate the vector from the radar center to the entity
-
+        // Calculate the vector from radar center to the entity
         std::pair<int, int> screen_coordinates = entity.get_position_xy();
-        int screen_x = screen_coordinates.first;
-        int screen_y = screen_coordinates.second;
-
         int dx = screen_coordinates.first - centerX;
         int dy = screen_coordinates.second - centerY;
 
@@ -41,16 +34,8 @@ std::vector<std::reference_wrapper<Aircraft>> Radar::getEntitiesInRadarCone(std:
         }
 
         // Calculate the angle of the entity relative to the radar center
-        // Calculate the angle to the entity
-        float entityAngle = std::atan2(dy, dx); // Angle from radar to entity
-        entityAngle = normalizeAngle(entityAngle); // Normalize to [0, 2π]
-
-        // Convert radar heading to radians and normalize
-        float radarHeadingRad = normalizeAngle(heading * M_PI / 180.0f);
-
-        // Calculate left and right bounds of the cone
-        float leftBound = normalizeAngle(radarHeadingRad - (heading * M_PI / 180.0f));
-        float rightBound = normalizeAngle(radarHeadingRad + (radarAngle * M_PI / 180.0f));
+        float entityAngle = std::atan2(dy, dx);
+        entityAngle = normalizeAngle(entityAngle);
 
         // Check if the entity is within the cone's angle range
         bool isInCone = false;
@@ -58,18 +43,17 @@ std::vector<std::reference_wrapper<Aircraft>> Radar::getEntitiesInRadarCone(std:
             isInCone = (entityAngle >= leftBound && entityAngle <= rightBound);
         }
         else {
-            // Handle the case where the cone crosses the 0/2π boundary
+            // Handle cone crossing 0/2π boundary
             isInCone = (entityAngle >= leftBound || entityAngle <= rightBound);
         }
 
         if (isInCone) {
             entitiesInCone.push_back(entity);
-            //entitiesInCone.push_back(entity.get_name()+ "_" + std::to_string(entity.get_id()));
         }
     }
 
-
     return entitiesInCone;
+
 }
 
 // Helper function to normalize an angle to the range [0, 2π]
