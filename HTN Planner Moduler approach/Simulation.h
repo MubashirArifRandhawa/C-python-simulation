@@ -38,7 +38,7 @@ public:
     bool is_quit() const { return quit; }
     bool is_running() const; // New method to check simulation state
     ~Simulation(); // Make sure the destructor is public
-    void simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer);
+    void simulation_update(SDL_Renderer* renderer);
     void initialize();
     void handleMouseClick(int x, int y);
     void handleMouseEvent(const SDL_Event& e);

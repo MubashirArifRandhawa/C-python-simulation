@@ -287,7 +287,7 @@ void Simulation::run() {
             render_aircraft_preview(selectedAircraft, mouseX, mouseY);
         }
         // Simulation Update Call
-        simulation_update(aircrafts, renderer);
+        simulation_update(renderer);
 
         SDL_RenderPresent(renderer);
         SDL_Delay(16);  // Cap frame rate to ~60 FPS
@@ -386,7 +386,7 @@ void Simulation::handleMouseWheel(SDL_Event& e) {
 
 
 
-void Simulation::simulation_update(std::vector<Aircraft>& aircrafts, SDL_Renderer* renderer) {
+void Simulation::simulation_update(SDL_Renderer* renderer) {
     for (auto& aircraft : aircrafts) {
         aircraft.update(renderer); // Update each aircraft's state
     }

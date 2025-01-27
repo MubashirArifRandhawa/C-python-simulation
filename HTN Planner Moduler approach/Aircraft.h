@@ -5,6 +5,8 @@
 #include <SDL_image.h>
 #include "SimulationObject.h"
 #include "Radar.h"
+#include <chrono>
+
 
 class CoordinateSystem;
 class Simulation;
@@ -28,6 +30,9 @@ private:
     std::string iconPath;
 
     Radar radar;
+
+    std::chrono::time_point<std::chrono::high_resolution_clock> lastTime = std::chrono::high_resolution_clock::now();
+    float deltaTime = 0.0f;
 
 public:
     // Constructor
@@ -53,10 +58,12 @@ public:
     void draw(SDL_Renderer* renderer) const;
     void adjustHeadingToNorth();
     void set_heading(float new_heading);
-    
+    void perform_radar_scan();
 
 private:
     void update_position(); // Gradually move towards the target
     static SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& path);
     void applyColorMod(SDL_Texture* texture) const;
+
+
 };

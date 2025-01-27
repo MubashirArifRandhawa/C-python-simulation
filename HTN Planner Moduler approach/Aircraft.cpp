@@ -193,7 +193,25 @@ void Aircraft::draw(SDL_Renderer* renderer) const {
 
 }
 
+void Aircraft::perform_radar_scan() {
+    auto screen_coordinates = coordinateSystem.to_screen_coordinates(latitude, longitude);
+    int screen_x = screen_coordinates.first;
+    int screen_y = screen_coordinates.second;
 
+    auto& simulation = Simulation::get_instance();
+    auto& allAircrafts = simulation.get_aircrafts_mutable();
+
+    std::vector<std::reference_wrapper<Aircraft>> detectedEntities =
+        radar.getEntitiesInRadarCone(allAircrafts, screen_x, screen_y, get_heading() - 90);
+
+    for (const auto& entity : detectedEntities) {
+        if (&entity.get() == this) // Skip self-detection
+            continue;
+
+        std::cout << "[" << get_name() << " - " << get_id() << "]'s radar detected: ["
+            << entity.get().get_name() << " - " << entity.get().get_id() << "]\n";
+    }
+}
 
 void Aircraft::update(SDL_Renderer* renderer) {
     if (!is_alive()) {
@@ -204,25 +222,25 @@ void Aircraft::update(SDL_Renderer* renderer) {
     // Update the position if the aircraft is moving
     update_position();
     draw(renderer);
-    // In your render function
-    //SDL_Color radarColor = { 255, 255, 0, 128 }; // Yellow with transparency
-    //radar.drawRadarCone(renderer, aircraftX, aircraftY, 200.0f, 90.0f, 45.0f, radarColor);
-        // Get screen coordinates of the aircraft
-    std::pair<int, int> screen_coordinates = coordinateSystem.to_screen_coordinates(latitude, longitude);
-    int screen_x = screen_coordinates.first;
-    int screen_y = screen_coordinates.second;
 
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> delta = currentTime - lastTime;
+    lastTime = currentTime;
 
-    std::vector<std::reference_wrapper<Aircraft>> detectedEntities = radar.getEntitiesInRadarCone(Simulation::get_instance().get_aircrafts_mutable(), screen_x, screen_y, get_heading() - 90);
+    deltaTime = delta.count(); // Delta time in seconds
 
-    for (const auto& entity : detectedEntities) {
-        if (&entity.get() == this) // Compare the addresses
-            continue;
-
-        std::cout << "Entity in radar cone: " << entity.get().get_name() <<" - " << entity.get().get_id() << "\n";
+    // Call function after 1 second
+    static float elapsedTime = 0.0f;
+    elapsedTime += deltaTime;
+    if (elapsedTime >= 1.0f) {
+        // #### Radar scane
+        perform_radar_scan();
+        // #### Radar scane
+        elapsedTime = 0.0f;
     }
-
 }
+
+
 
 SDL_Texture* Aircraft::loadTexture(SDL_Renderer* renderer, const std::string& path) {
     SDL_Texture* texture = IMG_LoadTexture(renderer, path.c_str());
